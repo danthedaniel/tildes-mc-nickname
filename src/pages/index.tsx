@@ -22,6 +22,12 @@ export default function Index() {
         tildesUsername,
       })
     });
+
+    if (response.status !== 200) {
+      setStatus("Something went wrong, please try again later.");
+      return;
+    }
+
     const data = await response.json();
     if (!data.success) {
       setStatus(data.message);
@@ -48,6 +54,11 @@ export default function Index() {
         tildesUsername,
       }),
     });
+
+    if (response.status !== 200) {
+      setStatus("Something went wrong, please try again later.");
+      return;
+    }
 
     const data = await response.json();
     if (!data.success) {

@@ -18,37 +18,37 @@ type Data =
 
 export default function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   if (req.method !== "POST") {
-    res.status(405).json({ success: false, message: "Only POST requests are allowed" });
+    res.status(200).json({ success: false, message: "Only POST requests are allowed" });
     return;
   }
 
   if (req.headers["content-type"] !== "application/json") {
-    res.status(400).json({ success: false, message: "Content-Type must be application/json" });
+    res.status(200).json({ success: false, message: "Content-Type must be application/json" });
     return;
   }
 
   const secret = process.env.USERNAME_SECRET;
   if (!secret) {
-    res.status(500).json({ success: false, message: "Server is not configured correctly" });
+    res.status(200).json({ success: false, message: "Server is not configured correctly" });
     return;
   }
 
   const { mcUsername, tildesUsername } = req.body;
   if (!mcUsername) {
-    res.status(400).json({ success: false, message: "Missing mcUsername" });
+    res.status(200).json({ success: false, message: "Missing mcUsername" });
     return;
   }
   if (!tildesUsername) {
-    res.status(400).json({ success: false, message: "Missing tildesUsername" });
+    res.status(200).json({ success: false, message: "Missing tildesUsername" });
     return;
   }
 
   if (!/^[a-zA-Z0-9_]{3,16}$/.test(mcUsername)) {
-    res.status(400).json({ success: false, message: "Invalid \"mcUsername\"" });
+    res.status(200).json({ success: false, message: "Invalid \"mcUsername\"" });
     return;
   }
   if (!/^[a-zA-Z0-9_-]+$/.test(tildesUsername)) {
-    res.status(400).json({ success: false, message: "Invalid \"tildesUsername\"" });
+    res.status(200).json({ success: false, message: "Invalid \"tildesUsername\"" });
     return;
   }
 
