@@ -52,6 +52,7 @@ export default function Index() {
       body: JSON.stringify({
         mcUsername,
         tildesUsername,
+        bio,
       }),
     });
 

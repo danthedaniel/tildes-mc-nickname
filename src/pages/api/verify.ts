@@ -127,6 +127,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       res.status(200).json({ success: false, message: error.message });
       return;
     }
+
+    res.status(200).json({ success: false, message: "Could not apply nickname" });
+    return;
   }
 
   res.status(200).json({ success: true });
