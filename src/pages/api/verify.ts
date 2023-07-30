@@ -6,6 +6,12 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 import { computeHMAC, slotDuration } from "./hmac";
 
+class RCONError extends Error {
+  constructor(message: string) {
+    super(message);
+  }
+}
+
 async function parseBio(tildesUsername: string) {
   const response = await axios.get(`https://tildes.net/user/${tildesUsername}`);
   const dom = new JSDOM(response.data);
@@ -16,12 +22,12 @@ async function parseBio(tildesUsername: string) {
 async function applyNickname(mcUsername: string, nickname: string) {
   const host = process.env.RCON_HOST;
   if (!host) {
-    throw new Error("Server is not configured correctly");
+    throw new RCONError("Server is not configured correctly");
   }
 
   const password = process.env.RCON_PASSWORD;
   if (!password) {
-    throw new Error("Server is not configured correctly");
+    throw new RCONError("Server is not configured correctly");
   }
 
   const rcon = await Rcon.connect({
@@ -30,9 +36,20 @@ async function applyNickname(mcUsername: string, nickname: string) {
     password,
   });
 
-  const color = "#0099CC";
-  await rcon.send(`nickother ${mcUsername} <${color}>${nickname}`);
-  await rcon.end();
+  try {
+    const list = await rcon.send("list");
+    const players = (list.match(/\d+ players online: (.*)/)?.[1] ?? "")
+        .split(", ")
+        .map(player => player.toLocaleLowerCase());
+    if (!players.includes(mcUsername.toLocaleLowerCase())) {
+      throw new RCONError("You must be on the server to change your nickname");
+    }
+
+    const color = "#0099CC";
+    await rcon.send(`nickother ${mcUsername} <${color}>${nickname}`);
+  } finally {
+    await rcon.end();
+  }
 }
 
 type Data =
@@ -103,7 +120,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     return;
   }
 
-  await applyNickname(mcUsername, tildesUsername);
+  try {
+    await applyNickname(mcUsername, tildesUsername);
+  } catch (error) {
+    if (error instanceof RCONError) {
+      res.status(200).json({ success: false, message: error.message });
+      return;
+    }
+  }
 
   res.status(200).json({ success: true });
 }

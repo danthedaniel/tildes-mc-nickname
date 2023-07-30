@@ -75,15 +75,18 @@ export default function Index() {
         <title>Verify Your Tildes Account</title>
       </Head>
       <div className="flex flex-col items-center justify-center min-h-screen px-4">
-        <div className="mb-8 p-8 bg-white rounded shadow-lg max-w-md w-full text-center">
+        <div className="mb-8 p-8 border-gray-300 bg-white rounded shadow-lg max-w-md w-full text-center">
           <h2 className="text-2xl font-bold mb-2">Tildes SMP Username Verification</h2>
           <p className="text-sm text-gray-700">
             Get your Tildes account name as your Minecraft nickname!
           </p>
         </div>
         <div className="p-8 border border-gray-300 bg-white rounded shadow-lg max-w-md w-full">
+          <p  className="block text-gray-700 text-sm font-bold mb-2">
+            1. Log into the Minecraft server at tildes.nore.gg
+          </p>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">Enter your Minecraft username</label>
+            <label className="block text-gray-700 text-sm font-bold mb-2">2. Enter your Minecraft username</label>
             <input
               value={mcUsername}
               onInput={(e) => setMcUsername(e.currentTarget.value)}
@@ -93,7 +96,7 @@ export default function Index() {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">Enter your Tildes username</label>
+            <label className="block text-gray-700 text-sm font-bold mb-2">3. Enter your Tildes username</label>
             <input
               value={tildesUsername}
               onBlur={(_e) => getHMAC()}
@@ -104,7 +107,7 @@ export default function Index() {
           </div>
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
-              Copy this and paste it into your&nbsp;
+              4. Copy this and paste it into your&nbsp;
               <a href="https://tildes.net/settings/bio" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">Tildes account bio</a>
             </label>
             <input
