@@ -122,7 +122,7 @@ export default function Index() {
           </div>
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
-              4. Copy this and paste it into your&nbsp;
+              4. Copy and paste this into your&nbsp;
               <a href="https://tildes.net/settings/bio" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">Tildes account bio</a>
             </label>
             <input
