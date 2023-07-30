@@ -150,6 +150,9 @@ export default function Index() {
           </div>
           {status && <div className="mb-4"><p>{status}</p></div>}
         </div>
+        <p className="text-sm mt-4">
+          Contact <a href="https://tildes.net/user/teaearlgraycold" target="_blank" rel="noopener noreferrer" className="underline text-blue-400"> @teaearlgraycold </a> on Tildes for help
+        </p>
       </div>
     </>
   );
