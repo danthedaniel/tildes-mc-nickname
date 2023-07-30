@@ -35,20 +35,20 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
 
   const { mcUsername, tildesUsername } = req.body;
   if (!mcUsername) {
-    res.status(200).json({ success: false, message: "Missing mcUsername" });
+    res.status(200).json({ success: false, message: "Missing Minecraft username" });
     return;
   }
   if (!tildesUsername) {
-    res.status(200).json({ success: false, message: "Missing tildesUsername" });
+    res.status(200).json({ success: false, message: "Missing Tildes username" });
     return;
   }
 
   if (!/^[a-zA-Z0-9_]{3,16}$/.test(mcUsername)) {
-    res.status(200).json({ success: false, message: "Invalid \"mcUsername\"" });
+    res.status(200).json({ success: false, message: "Invalid Minecraft username" });
     return;
   }
   if (!/^[a-zA-Z0-9_-]+$/.test(tildesUsername)) {
-    res.status(200).json({ success: false, message: "Invalid \"tildesUsername\"" });
+    res.status(200).json({ success: false, message: "Invalid Tildes username" });
     return;
   }
 
