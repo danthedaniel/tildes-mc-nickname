@@ -6,6 +6,7 @@ export default function Index() {
   const [tildesUsername, setTildesUsername] = useState("");
   const [bio, setBio] = useState("");
   const [submittable, setSubmittable] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState("");
 
   async function getHMAC() {
@@ -44,6 +45,8 @@ export default function Index() {
     if (!tildesUsername) return;
     if (!bio) return;
 
+    setIsLoading(true);
+
     const response = await fetch("/api/verify", {
       method: "POST",
       headers: {
@@ -55,6 +58,8 @@ export default function Index() {
         bio,
       }),
     });
+
+    setIsLoading(false);
 
     if (response.status !== 200) {
       setStatus("Something went wrong, please try again later.");
@@ -136,11 +141,11 @@ export default function Index() {
           <button 
             disabled={!submittable} 
             className={`font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline 
-              ${!submittable ? "bg-gray-300 text-gray-100 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-700 text-white"}`} 
+              ${!submittable || isLoading ? "bg-gray-300 text-gray-100 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-700 text-white"}`}
             type="button"
             onClick={() => doVerify()}
           >
-            Verify my bio
+            {isLoading ? "Loading..." : "Verify my bio"}
           </button>
           </div>
           {status && <div className="mb-4"><p>{status}</p></div>}
