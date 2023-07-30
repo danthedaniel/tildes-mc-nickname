@@ -91,7 +91,7 @@ export default function Index() {
             <input
               value={mcUsername}
               onInput={(e) => {
-                setMcUsername(e.currentTarget.value);
+                setMcUsername(e.currentTarget.value.trim());
                 setSubmittable(false);
               }}
               onBlur={(_e) => getHMAC()}
@@ -106,7 +106,7 @@ export default function Index() {
             <input
               value={tildesUsername}
               onInput={(e) => {
-                setTildesUsername(e.currentTarget.value);
+                setTildesUsername(e.currentTarget.value.trim());
                 setSubmittable(false);
               }}
               onBlur={(_e) => getHMAC()}
