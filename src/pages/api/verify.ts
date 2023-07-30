@@ -20,6 +20,8 @@ async function parseBio(tildesUsername: string) {
 }
 
 async function applyNickname(mcUsername: string, nickname: string) {
+  console.log(`Assigning nickname:${nickname} to ign:${mcUsername}`);
+
   const host = process.env.RCON_HOST;
   if (!host) {
     throw new RCONError("Server is not configured correctly");
@@ -102,8 +104,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   }
 
   const hmac = bio.match(/MCValidation:([a-f0-9]{64})/)?.[1] ?? "";
-  if (hmac.length !== 64) {
-    res.status(200).json({ success: false, message: "Invalid \"MCValidation\"" });
+  if (!hmac) {
+    res.status(200).json({ success: false, message: "Could not find \"MCValidation\"" });
     return;
   }
 
