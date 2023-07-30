@@ -90,7 +90,11 @@ export default function Index() {
             <label className="block text-gray-700 text-sm font-bold mb-2">2. Enter your Minecraft username</label>
             <input
               value={mcUsername}
-              onInput={(e) => setMcUsername(e.currentTarget.value)}
+              onInput={(e) => {
+                setMcUsername(e.currentTarget.value);
+                setSubmittable(false);
+              }}
+              onBlur={(_e) => getHMAC()}
               onKeyDown={(e) => e.key === "Enter" && getHMAC()}
               autoComplete="off"
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -101,7 +105,10 @@ export default function Index() {
             <label className="block text-gray-700 text-sm font-bold mb-2">3. Enter your Tildes username</label>
             <input
               value={tildesUsername}
-              onInput={(e) => setTildesUsername(e.currentTarget.value)}
+              onInput={(e) => {
+                setTildesUsername(e.currentTarget.value);
+                setSubmittable(false);
+              }}
               onBlur={(_e) => getHMAC()}
               onKeyDown={(e) => e.key === "Enter" && getHMAC()}
               autoComplete="off"
