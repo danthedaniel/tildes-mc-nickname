@@ -43,6 +43,15 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
     return;
   }
 
+  if (!/^[a-zA-Z0-9_]{3,16}$/.test(mcUsername)) {
+    res.status(400).json({ success: false, message: "Invalid \"mcUsername\"" });
+    return;
+  }
+  if (!/^[a-zA-Z0-9_-]+$/.test(tildesUsername)) {
+    res.status(400).json({ success: false, message: "Invalid \"tildesUsername\"" });
+    return;
+  }
+
   const hmac = computeHMAC(mcUsername, tildesUsername, Date.now(), secret);
   res.status(200).json({ success: true, hmac });
 }

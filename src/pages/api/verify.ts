@@ -66,6 +66,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     return;
   }
 
+  if (!/^[a-zA-Z0-9_]{3,16}$/.test(mcUsername)) {
+    res.status(400).json({ success: false, message: "Invalid \"mcUsername\"" });
+    return;
+  }
+  if (!/^[a-zA-Z0-9_-]+$/.test(tildesUsername)) {
+    res.status(400).json({ success: false, message: "Invalid \"tildesUsername\"" });
+    return;
+  }
+
   let bio;
   
   try {
