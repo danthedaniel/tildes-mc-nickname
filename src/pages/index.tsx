@@ -55,7 +55,7 @@ export default function Index() {
       return;
     }
 
-    setStatus(`Nickname set to ${tildesUsername}!`);
+    setStatus(`Nickname set to ${tildesUsername}! You can remove the validation string from your bio now.`);
   }
 
   return (
