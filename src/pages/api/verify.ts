@@ -13,7 +13,13 @@ class RCONError extends Error {
 }
 
 async function parseBio(tildesUsername: string) {
-  const response = await axios.get(`https://tildes.net/user/${tildesUsername}`);
+  let response;  
+  try {
+    response = await axios.get(`https://tildes.net/user/${tildesUsername}`);
+  } catch (error) {
+    return "";
+  }
+
   const dom = new JSDOM(response.data);
   const userBio = dom.window.document.querySelector("div.user-bio")?.textContent ?? "";
   return userBio;
