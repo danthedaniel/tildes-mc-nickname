@@ -92,6 +92,7 @@ export default function Index() {
               value={mcUsername}
               onInput={(e) => setMcUsername(e.currentTarget.value)}
               onKeyDown={(e) => e.key === "Enter" && getHMAC()}
+              autoComplete="off"
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               type="text"
             />
@@ -100,9 +101,10 @@ export default function Index() {
             <label className="block text-gray-700 text-sm font-bold mb-2">3. Enter your Tildes username</label>
             <input
               value={tildesUsername}
+              onInput={(e) => setTildesUsername(e.currentTarget.value)}
               onBlur={(_e) => getHMAC()}
               onKeyDown={(e) => e.key === "Enter" && getHMAC()}
-              onInput={(e) => setTildesUsername(e.currentTarget.value)}
+              autoComplete="off"
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               type="text" />
           </div>
@@ -118,6 +120,7 @@ export default function Index() {
                 e.currentTarget.select();
                 document.execCommand("copy");
               }}
+              autoComplete="off"
               className="shadow appearance-none border rounded w-full py-2 px-3 bg-gray-100 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               type="text"
             />
