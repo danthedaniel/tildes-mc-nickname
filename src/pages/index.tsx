@@ -86,9 +86,9 @@ export default function Index() {
       </Head>
       <div className="flex flex-col items-center justify-center min-h-screen px-4">
         <div className="mb-8 p-8 border-gray-300 bg-white rounded shadow-lg max-w-md w-full text-center">
-          <h2 className="text-2xl font-bold mb-2">Tildes SMP Username Verification</h2>
+          <h2 className="text-2xl font-bold mb-2">Tildes SMP Verification</h2>
           <p className="text-sm text-gray-700">
-            Get your Tildes account name as your Minecraft nickname!
+            Get build access and set your Tildes account name as your Minecraft nickname!
           </p>
         </div>
         <div className="p-8 border border-gray-300 bg-white rounded shadow-lg max-w-md w-full">
