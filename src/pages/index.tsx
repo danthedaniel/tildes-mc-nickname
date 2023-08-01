@@ -13,6 +13,8 @@ export default function Index() {
     if (!mcUsername) return;
     if (!tildesUsername) return;
 
+    setBio("Loading...");
+
     const response = await fetch("/api/hmac", {
       method: "POST",
       headers: {
@@ -26,12 +28,14 @@ export default function Index() {
 
     if (response.status !== 200) {
       setStatus("Something went wrong, please try again later.");
+      setBio("");
       return;
     }
 
     const data = await response.json();
     if (!data.success) {
       setStatus(data.message);
+      setBio("");
       return;
     }
 
