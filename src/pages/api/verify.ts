@@ -50,6 +50,8 @@ async function applyNickname(mcUsername: string, nickname: string) {
     const color = "#0099CC";
     await rcon.send(`nickother ${mcUsername} <${color}>${nickname}`);
 
+    const group = "player";
+    await rcon.send(`lp user ${mcUsername} parent add ${group}`);
     await rcon.send(`whitelist add ${mcUsername}`);
   } finally {
     await rcon.end();
