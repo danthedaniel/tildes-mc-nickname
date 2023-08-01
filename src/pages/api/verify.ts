@@ -47,12 +47,21 @@ async function applyNickname(mcUsername: string, nickname: string) {
       throw new RCONError("You must be on the server to change your nickname");
     }
 
+    const group = "player";
+    await rcon.send(`lp user ${mcUsername} parent add ${group}`);
+
+    await rcon.send(`whitelist add ${mcUsername}`);
+
     const color = "#0099CC";
     await rcon.send(`nickother ${mcUsername} <${color}>${nickname}`);
 
-    const group = "player";
-    await rcon.send(`lp user ${mcUsername} parent add ${group}`);
-    await rcon.send(`whitelist add ${mcUsername}`);
+    const tellRawData = {
+      text: "Your account has been verified and you now have build access!",
+      bold: true,
+      color: "green",
+      italic: true,
+    };
+    await rcon.send(`tellraw ${mcUsername} ${JSON.stringify(tellRawData)}`);
   } finally {
     await rcon.end();
   }
