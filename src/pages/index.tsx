@@ -92,8 +92,8 @@ export default function Index() {
           </p>
         </div>
         <div className="p-8 border border-gray-300 bg-white rounded shadow-lg max-w-md w-full">
-          <p  className="block text-gray-700 text-sm font-bold mb-2">
-            1. Log into the Minecraft server at tildes.nore.gg
+          <p className="block text-gray-700 text-sm font-bold mb-2">
+            1. Log into the Minecraft server at <code className="bg-blue-100 text-blue-800 rounded px-1">tildes.nore.gg</code>
           </p>
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">2. Enter your Minecraft username</label>
@@ -152,7 +152,6 @@ export default function Index() {
             {isLoading ? "Loading..." : "Verify my bio"}
           </button>
           </div>
-          {status && <div className="mb-4"><p>{status}</p></div>}
         </div>
         <p className="text-sm mt-4">
           Contact <a href="https://tildes.net/user/teaearlgraycold" target="_blank" rel="noopener noreferrer" className="hover:underline text-blue-400">@teaearlgraycold</a> on Tildes for help
