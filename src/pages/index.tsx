@@ -85,13 +85,13 @@ export default function Index() {
         <title>Verify Your Tildes Account</title>
       </Head>
       <div className="flex flex-col items-center justify-center min-h-screen px-4">
-        <div className="mb-8 p-8 border border-gray-300 bg-white rounded shadow-lg max-w-md w-full text-center">
-          <h2 className="text-2xl font-bold mb-2">Tildes SMP Verification</h2>
+        <div className="mb-8 p-8 border border-gray-300 bg-white rounded-lg shadow-sm max-w-md w-full text-center">
+          <h2 className="text-2xl font-bold mb-2 text-blue-500">Tildes SMP Verification</h2>
           <p className="text-sm text-gray-700">
             Get build access and set your Tildes account name as your Minecraft nickname!
           </p>
         </div>
-        <div className="p-8 border border-gray-300 bg-white rounded shadow-lg max-w-md w-full">
+        <div className="p-8 border border-gray-300 bg-white rounded-lg shadow-md max-w-md w-full">
           <p className="block text-gray-700 text-sm font-bold mb-2">
             1. Log into the Minecraft server at <code className="bg-blue-100 text-blue-800 rounded px-1">tildes.nore.gg</code>
           </p>
@@ -142,18 +142,18 @@ export default function Index() {
             />
           </div>
           <div className="mb-4">
-          <button 
-            disabled={!submittable} 
-            className={`font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline 
-              ${!submittable || isLoading ? "bg-gray-300 text-gray-100 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-700 text-white"}`}
-            type="button"
-            onClick={() => doVerify()}
-          >
-            {isLoading ? "Loading..." : "Verify my bio"}
-          </button>
+            <button 
+              disabled={!submittable} 
+              className={`font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline 
+                ${!submittable || isLoading ? "bg-gray-300 text-gray-100 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-700 text-white cursor-pointer"}`}
+              type="button"
+              onClick={() => doVerify()}
+            >
+              {isLoading ? "Loading..." : "Verify my bio"}
+            </button>
           </div>
         </div>
-        <p className="text-sm mt-4">
+        <p className="text-sm mt-4 text-gray-700">
           Contact <a href="https://tildes.net/user/teaearlgraycold" target="_blank" rel="noopener noreferrer" className="hover:underline text-blue-400">@teaearlgraycold</a> on Tildes for help
         </p>
       </div>
