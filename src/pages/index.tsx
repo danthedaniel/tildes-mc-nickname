@@ -152,6 +152,7 @@ export default function Index() {
               {isLoading ? "Loading..." : "Verify my bio"}
             </button>
           </div>
+          <p className="text-sm text-gray-700">{status}</p>
         </div>
         <p className="text-sm mt-4 text-gray-700">
           Contact <a href="https://tildes.net/user/teaearlgraycold" target="_blank" rel="noopener noreferrer" className="hover:underline text-blue-400">@teaearlgraycold</a> on Tildes for help
