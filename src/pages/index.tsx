@@ -84,7 +84,7 @@ export default function Index() {
       <Head>
         <title>Verify Your Tildes Account</title>
       </Head>
-      <div className="flex flex-col items-center justify-center min-h-screen px-4">
+      <div className="flex flex-col items-center justify-center min-h-screen p-4">
         <div className="mb-8 p-8 border border-gray-300 bg-white rounded-lg shadow-sm max-w-md w-full text-center">
           <h2 className="text-2xl font-bold mb-2 text-blue-500">Tildes SMP Verification</h2>
           <p className="text-sm text-gray-700">
