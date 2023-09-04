@@ -1,7 +1,7 @@
 import crypto from "crypto";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-export const slotDuration = 15 * 60 * 1000; // 15 minutes
+export const slotDuration = 5 * 60 * 1000; // 5 minutes
 
 export function computeHMAC(mcUsername: string, tildesUsername: string, date: number, secret: string) {
   // Round off the timestamp to the nearest slot

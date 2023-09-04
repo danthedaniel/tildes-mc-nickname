@@ -107,7 +107,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     return;
   }
 
-  let bio;
+  let bio: string;
   
   try {
     bio = await parseBio(tildesUsername);
