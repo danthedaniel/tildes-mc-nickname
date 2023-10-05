@@ -43,7 +43,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
     return;
   }
 
-  if (!/^[a-zA-Z0-9_]{3,16}$/.test(mcUsername)) {
+  if (!/^\.?[a-zA-Z0-9_]{3,16}$/.test(mcUsername)) {
     res.status(200).json({ success: false, message: "Invalid Minecraft username" });
     return;
   }

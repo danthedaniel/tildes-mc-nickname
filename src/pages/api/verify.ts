@@ -57,8 +57,8 @@ async function applyNickname(mcUsername: string, nickname: string) {
 
     const tellRawData = {
       text: "Your account has been verified and you now have build access!",
-      bold: true,
       color: "green",
+      bold: true,
       italic: true,
     };
     await rcon.send(`tellraw ${mcUsername} ${JSON.stringify(tellRawData)}`);
@@ -98,7 +98,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     return;
   }
 
-  if (!/^[a-zA-Z0-9_]{3,16}$/.test(mcUsername)) {
+  if (!/^\.?[a-zA-Z0-9_]{3,16}$/.test(mcUsername)) {
     res.status(200).json({ success: false, message: "Invalid Minecraft username" });
     return;
   }
