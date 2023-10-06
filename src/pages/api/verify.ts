@@ -50,7 +50,13 @@ async function applyNickname(mcUsername: string, nickname: string) {
     const group = "player";
     await rcon.send(`lp user ${mcUsername} parent add ${group}`);
 
-    await rcon.send(`whitelist add ${mcUsername}`);
+    if (mcUsername.startsWith(".")) {
+      // Floodgate whitelist command
+      await rcon.send(`fwhitelist add ${mcUsername.replace(/^\./, "")}`);
+    } else {
+      // Vanilla whitelist command
+      await rcon.send(`whitelist add ${mcUsername}`);
+    }
 
     const color = "#0099CC";
     await rcon.send(`nickother ${mcUsername} <${color}>${nickname}`);
