@@ -5,6 +5,7 @@ import { Rcon } from "rcon-client";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { computeHMAC, slotDuration, hmacLength } from "./hmac";
+import type { VerifyResponse } from "../../api-types";
 
 class RCONError extends Error {
   constructor(message: string) {
@@ -73,11 +74,7 @@ async function applyNickname(mcUsername: string, nickname: string) {
   }
 }
 
-type Data =
-  | { success: true }
-  | { success: false, message: string };
-
-export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<VerifyResponse>) {
   if (req.method !== "POST") {
     res.status(200).json({ success: false, message: "Only POST requests are allowed" });
     return;

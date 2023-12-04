@@ -1,5 +1,6 @@
 import crypto from "crypto";
 import type { NextApiRequest, NextApiResponse } from "next";
+import type { HMACRequest, HMACResponse } from "../../api-types";
 
 export const slotDuration = 5 * 60 * 1000; // 5 minutes
 export const hmacLength = 16;
@@ -14,11 +15,7 @@ export function computeHMAC(mcUsername: string, tildesUsername: string, date: nu
     .slice(0, hmacLength);
 }
 
-type Data =
-  | { success: true, hmac: string }
-  | { success: false, message: string };
-
-export default function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
+export default function handler(req: NextApiRequest, res: NextApiResponse<HMACResponse>) {
   if (req.method !== "POST") {
     res.status(200).json({ success: false, message: "Only POST requests are allowed" });
     return;
@@ -35,7 +32,13 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
     return;
   }
 
-  const { mcUsername, tildesUsername } = req.body;
+  const body: unknown = req.body;
+  if (typeof body !== "object" || body === null || Array.isArray(body)) {
+    res.status(200).json({ success: false, message: "Invalid request body" });
+    return;
+  }
+
+  const { mcUsername, tildesUsername } = body as HMACRequest;
   if (!mcUsername) {
     res.status(200).json({ success: false, message: "Missing Minecraft username" });
     return;

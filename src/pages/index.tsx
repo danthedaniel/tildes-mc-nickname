@@ -1,6 +1,8 @@
 import { useState } from "react";
 import Head from "next/head";
 
+import type { HMACResponse, VerifyResponse } from "../api-types";
+
 export default function Index() {
   const [mcUsername, setMcUsername] = useState("");
   const [tildesUsername, setTildesUsername] = useState("");
@@ -32,7 +34,7 @@ export default function Index() {
       return;
     }
 
-    const data = await response.json();
+    const data = await response.json() as HMACResponse;
     if (!data.success) {
       setStatus(data.message);
       setBio("");
@@ -70,7 +72,7 @@ export default function Index() {
       return;
     }
 
-    const data = await response.json();
+    const data = await response.json() as VerifyResponse;
     if (!data.success) {
       setStatus(data.message);
       return;
@@ -142,8 +144,8 @@ export default function Index() {
             />
           </div>
           <div className="mb-4">
-            <button 
-              disabled={!submittable} 
+            <button
+              disabled={!submittable}
               className={`font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline 
                 ${!submittable || isLoading ? "bg-gray-300 text-gray-100 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-700 text-white cursor-pointer"}`}
               type="button"
