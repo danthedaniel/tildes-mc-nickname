@@ -4,7 +4,7 @@ import { timingSafeEqual } from "crypto";
 import { Rcon } from "rcon-client";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import { computeHMAC, slotDuration } from "./hmac";
+import { computeHMAC, slotDuration, hmacLength } from "./hmac";
 
 class RCONError extends Error {
   constructor(message: string) {
@@ -122,7 +122,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     return;
   }
 
-  const hmac = bio.match(/MCValidation:([a-f0-9]{64})/)?.[1] ?? "";
+  const hmac = bio.match(new RegExp(`MCValidation:([a-f0-9]{${hmacLength}})`))?.[1];
   if (!hmac) {
     res.status(200).json({ success: false, message: "Could not find \"MCValidation\"" });
     return;
