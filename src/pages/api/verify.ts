@@ -51,13 +51,7 @@ async function applyNickname(mcUsername: string, nickname: string) {
     const group = "player";
     await rcon.send(`lp user ${mcUsername} parent add ${group}`);
 
-    if (mcUsername.startsWith(".")) {
-      // Floodgate whitelist command
-      await rcon.send(`fwhitelist add ${mcUsername.replace(/^\./, "")}`);
-    } else {
-      // Vanilla whitelist command
-      await rcon.send(`whitelist add ${mcUsername}`);
-    }
+    await rcon.send(`whitelist add ${mcUsername}`);
 
     const color = "#0099CC";
     await rcon.send(`nickother ${mcUsername} <${color}>${nickname}`);
@@ -101,7 +95,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     return;
   }
 
-  if (!/^\.?[a-zA-Z0-9_]{3,16}$/.test(mcUsername)) {
+  if (!/^[a-zA-Z0-9_]{3,16}$/.test(mcUsername)) {
     res.status(200).json({ success: false, message: "Invalid Minecraft username" });
     return;
   }

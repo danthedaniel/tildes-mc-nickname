@@ -98,7 +98,7 @@ export default function Index() {
             1. Log into the Minecraft server at <code className="bg-blue-100 text-blue-800 rounded px-1">tildes.nore.gg</code>
           </p>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">2. Enter your Minecraft username (prefix with a period for Bedrock Edition)</label>
+            <label className="block text-gray-700 text-sm font-bold mb-2">2. Enter your Minecraft username</label>
             <input
               value={mcUsername}
               onInput={(e) => {
