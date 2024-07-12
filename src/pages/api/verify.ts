@@ -41,9 +41,11 @@ async function applyNickname(mcUsername: string, nickname: string) {
 
   try {
     const list = await rcon.send("list");
+    console.log(`List: ${JSON.stringify(list)}`);
     const players = (list.match(/\d+ players online: (.*)/)?.[1] ?? "")
         .split(", ")
         .map(player => player.toLocaleLowerCase());
+    console.log(`Players online: ${JSON.stringify(players)}, mcUsername ${JSON.stringify(mcUsername)}`);
     if (!players.includes(mcUsername.toLocaleLowerCase())) {
       throw new RCONError("You must be on the server to change your nickname");
     }
