@@ -40,7 +40,7 @@ async function applyNickname(mcUsername: string, nickname: string) {
   });
 
   try {
-    const check = await rcon.send(`execute if entity ${mcUsername}`);
+    const check = await rcon.send(`execute if entity @p[name="${mcUsername}"]`);
     if (check.includes("failed")) {
       throw new RCONError("You must be on the server to change your nickname");
     }
