@@ -4,7 +4,8 @@ import { timingSafeEqual } from "crypto";
 import { Rcon } from "rcon-client";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import { computeHMAC, slotDuration, hmacLength } from "./hmac";
+import { computeHMAC, slotDuration, hmacLength } from "../../util/hmac";
+import { tellRawString } from "../../util/tellraw";
 import type { VerifyResponse } from "../../api-types";
 
 class RCONError extends Error {
@@ -53,13 +54,31 @@ async function applyNickname(mcUsername: string, nickname: string) {
     const color = "#0099CC";
     await rcon.send(`nickother ${mcUsername} <${color}>${nickname}`);
 
-    const tellRawData = {
+    await rcon.send(`tellraw ${mcUsername} ${tellRawString({
       text: "Your account has been verified and you now have build access!",
       color: "green",
       bold: true,
       italic: true,
-    };
-    await rcon.send(`tellraw ${mcUsername} ${JSON.stringify(tellRawData)}`);
+    })}`);
+
+    await rcon.send(`tellraw @a ${tellRawString([
+      {
+        text: `${mcUsername} is `,
+        color: "yellow",
+      },
+      {
+        text: "@",
+        color: "white",
+      },
+      {
+        text: nickname,
+        color: color,
+      },
+      {
+        text: " on Tildes",
+        color: "yellow",
+      },
+    ])}`);
   } finally {
     await rcon.end();
   }
@@ -82,12 +101,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     return;
   }
 
-  const { mcUsername, tildesUsername } = req.body;
-  if (!mcUsername) {
+  const body: unknown = req.body;
+  if (typeof body !== "object" || body === null || Array.isArray(body)) {
+    res.status(200).json({ success: false, message: "Invalid request body" });
+    return;
+  }
+
+  const { mcUsername, tildesUsername } = body as Record<string, unknown>;
+  if (typeof mcUsername !== "string") {
     res.status(200).json({ success: false, message: "Missing Minecraft username" });
     return;
   }
-  if (!tildesUsername) {
+  if (typeof tildesUsername !== "string") {
     res.status(200).json({ success: false, message: "Missing Tildes username" });
     return;
   }
