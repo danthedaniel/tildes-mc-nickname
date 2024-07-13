@@ -8,7 +8,7 @@ export function tellRawString(text: TextComponent): string {
 export type TextComponent = string | TextObject | (string | TextObject)[];
 
 /**
- * Describes a text object in Minecraft's JSON text formatting system, capable of nesting other text components, applying styling, and including interactive events.
+ * Describes a text object in Minecraft"s JSON text formatting system, capable of nesting other text components, applying styling, and including interactive events.
  */
 interface TextObject {
   /** 
@@ -20,9 +20,9 @@ interface TextObject {
    */
   extra?: TextComponent[];
   /** 
-   * Specifies the color of the text. Accepts named colors or hexadecimal values prefixed by '#'.
+   * Specifies the color of the text. Accepts named colors or hexadecimal values prefixed by "#".
    */
-  color?: `#${string}` | 'black' | 'dark_blue' | 'dark_green' | 'dark_aqua' | 'dark_red' | 'dark_purple' | 'gold' | 'gray' | 'dark_gray' | 'blue' | 'green' | 'aqua' | 'red' | 'light_purple' | 'yellow' | 'white';
+  color?: `#${string}` | "black" | "dark_blue" | "dark_green" | "dark_aqua" | "dark_red" | "dark_purple" | "gold" | "gray" | "dark_gray" | "blue" | "green" | "aqua" | "red" | "light_purple" | "yellow" | "white";
   /** 
    * Font resource location to use for rendering the text.
    */
@@ -68,7 +68,7 @@ interface ClickEvent {
   /** 
    * The type of action that will occur when the text is clicked.
    */
-  action: 'open_url' | 'open_file' | 'run_command' | 'suggest_command' | 'change_page' | 'copy_to_clipboard';
+  action: "open_url" | "open_file" | "run_command" | "suggest_command" | "change_page" | "copy_to_clipboard";
   /** 
    * The value associated with the action, such as a URL or command string.
    */
@@ -82,7 +82,7 @@ interface HoverEvent {
   /** 
    * The type of tooltip that is displayed when hovering over the text.
    */
-  action: 'show_text' | 'show_item' | 'show_entity';
+  action: "show_text" | "show_item" | "show_entity";
   /** 
    * The content of the tooltip, varying based on the action specified.
    */
@@ -99,7 +99,7 @@ type HoverContent = TextComponent | ShowItem | ShowEntity;
  */
 interface ShowItem {
   /** 
-   * The item's identifier.
+   * The item"s identifier.
    */
   id: string;
   /** 
