@@ -6,7 +6,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 import { computeHMAC, slotDuration, hmacLength } from "../../util/hmac";
 import { tellRawString } from "../../util/tellraw";
-import type { VerifyResponse } from "../../api-types";
+import type { VerifyRequest, VerifyResponse } from "../../api-types";
 
 class RCONError extends Error {
   constructor(message: string) {
@@ -107,7 +107,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     return;
   }
 
-  const { mcUsername, tildesUsername } = body as Record<string, unknown>;
+  const { mcUsername, tildesUsername } = body as VerifyRequest;
   if (typeof mcUsername !== "string") {
     res.status(200).json({ success: false, message: "Missing Minecraft username" });
     return;
