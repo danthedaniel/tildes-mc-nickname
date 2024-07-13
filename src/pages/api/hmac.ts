@@ -40,7 +40,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<HMACRe
     res.status(200).json({ success: false, message: "Invalid Minecraft username" });
     return;
   }
-  if (!/^[a-zA-Z0-9_-]+$/.test(tildesUsername)) {
+  if (!/^[a-zA-Z0-9_-]{2,255}$/.test(tildesUsername)) {
     res.status(200).json({ success: false, message: "Invalid Tildes username" });
     return;
   }
