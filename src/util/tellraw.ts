@@ -14,7 +14,7 @@ interface TextObject {
   /** 
    * Plain text to be displayed. 
    */
-  text?: string;
+  text: string;
   /** 
    * List of additional text components that are displayed in sequence after this component.
    */
@@ -78,21 +78,10 @@ interface ClickEvent {
 /**
  * Defines the hover event associated with a text component, specifying the type of tooltip to display when the mouse hovers over the text.
  */
-interface HoverEvent {
-  /** 
-   * The type of tooltip that is displayed when hovering over the text.
-   */
-  action: "show_text" | "show_item" | "show_entity";
-  /** 
-   * The content of the tooltip, varying based on the action specified.
-   */
-  contents: HoverContent;
-}
-
-/**
- * Content definitions for hover tooltips based on the action.
- */
-type HoverContent = TextComponent | ShowItem | ShowEntity;
+type HoverEvent =
+  | { action: "show_text"; contents: TextComponent }
+  | { action: "show_item"; contents: ShowItem }
+  | { action: "show_entity"; contents: ShowEntity };
 
 /**
  * Specifies the details of an item tooltip to be shown.
@@ -116,6 +105,10 @@ interface ShowItem {
  * Specifies the details of an entity tooltip to be shown.
  */
 interface ShowEntity {
+  /**
+   * The unique identifier of the entity.
+   */
+  id: string;
   /** 
    * The display name of the entity, shown if provided.
    */
@@ -124,8 +117,4 @@ interface ShowEntity {
    * The type identifier of the entity.
    */
   type: string;
-  /** 
-   * The unique identifier of the entity.
-   */
-  id: string;
 }
