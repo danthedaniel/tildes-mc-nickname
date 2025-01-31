@@ -87,7 +87,7 @@ export default function Index() {
         <title>Verify Your Tildes Account</title>
       </Head>
       <div className="flex flex-col items-center justify-center min-h-screen p-4">
-        <div className="mb-8 p-8 border border-gray-300 bg-white rounded-lg shadow-sm max-w-md w-full text-center">
+        <div className="mb-8 p-8 border border-gray-300 bg-white rounded-lg shadow-xs max-w-md w-full text-center">
           <h2 className="text-2xl font-bold mb-2 text-blue-500">Tildes SMP Verification</h2>
           <p className="text-sm text-gray-700">
             Get build access and set your Tildes account name as your Minecraft nickname!
@@ -95,7 +95,7 @@ export default function Index() {
         </div>
         <div className="p-8 border border-gray-300 bg-white rounded-lg shadow-md max-w-md w-full">
           <p className="block text-gray-700 text-sm font-bold mb-2">
-            1. Log into the Minecraft server at <code className="bg-blue-100 text-blue-800 rounded px-1">tildes.nore.gg</code>
+            1. Log into the Minecraft server at <code className="bg-blue-100 text-blue-800 rounded-sm px-1">tildes.nore.gg</code>
           </p>
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">2. Enter your Minecraft username</label>
@@ -108,7 +108,7 @@ export default function Index() {
               onBlur={(_e) => getHMAC()}
               onKeyDown={(e) => e.key === "Enter" && getHMAC()}
               autoComplete="off"
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow-sm appearance-none border rounded-sm w-full py-2 px-3 text-gray-700 leading-tight focus:outline-hidden focus:shadow-outline"
               type="text"
             />
           </div>
@@ -123,7 +123,7 @@ export default function Index() {
               onBlur={(_e) => getHMAC()}
               onKeyDown={(e) => e.key === "Enter" && getHMAC()}
               autoComplete="off"
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow-sm appearance-none border rounded-sm w-full py-2 px-3 text-gray-700 leading-tight focus:outline-hidden focus:shadow-outline"
               type="text" />
           </div>
           <div className="mb-4">
@@ -139,14 +139,14 @@ export default function Index() {
                 document.execCommand("copy");
               }}
               autoComplete="off"
-              className="shadow appearance-none border rounded w-full py-2 px-3 bg-gray-100 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow-sm appearance-none border rounded-sm w-full py-2 px-3 bg-gray-100 text-gray-700 leading-tight focus:outline-hidden focus:shadow-outline"
               type="text"
             />
           </div>
           <div className="mb-4">
             <button
               disabled={!submittable}
-              className={`font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline 
+              className={`font-bold py-2 px-4 rounded focus:outline-hidden focus:shadow-outline 
                 ${!submittable || isLoading ? "bg-gray-300 text-gray-100 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-700 text-white cursor-pointer"}`}
               type="button"
               onClick={() => doVerify()}
