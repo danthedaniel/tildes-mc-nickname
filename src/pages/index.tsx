@@ -146,7 +146,7 @@ export default function Index() {
           <div className="mb-4">
             <button
               disabled={!submittable}
-              className={`font-bold py-2 px-4 rounded focus:outline-hidden focus:shadow-outline 
+              className={`font-bold py-2 px-4 rounded focus:outline-hidden focus:shadow-outline
                 ${!submittable || isLoading ? "bg-gray-300 text-gray-100 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-700 text-white cursor-pointer"}`}
               type="button"
               onClick={() => doVerify()}
