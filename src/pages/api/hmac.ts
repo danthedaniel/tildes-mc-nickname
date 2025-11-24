@@ -1,22 +1,31 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import type { HMACRequest, HMACResponse } from "../../api-types";
-import { computeHMAC, slotDuration, hmacLength } from "../../util/hmac";
+import { computeHMAC } from "../../util/hmac";
 
-
-export default function handler(req: NextApiRequest, res: NextApiResponse<HMACResponse>) {
+export default function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<HMACResponse>,
+) {
   if (req.method !== "POST") {
-    res.status(200).json({ success: false, message: "Only POST requests are allowed" });
+    res
+      .status(200)
+      .json({ success: false, message: "Only POST requests are allowed" });
     return;
   }
 
   if (req.headers["content-type"] !== "application/json") {
-    res.status(200).json({ success: false, message: "Content-Type must be application/json" });
+    res.status(200).json({
+      success: false,
+      message: "Content-Type must be application/json",
+    });
     return;
   }
 
   const secret = process.env.USERNAME_SECRET;
   if (!secret) {
-    res.status(200).json({ success: false, message: "Server is not configured correctly" });
+    res
+      .status(200)
+      .json({ success: false, message: "Server is not configured correctly" });
     return;
   }
 
@@ -28,20 +37,28 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<HMACRe
 
   const { mcUsername, tildesUsername } = body as HMACRequest;
   if (typeof mcUsername !== "string") {
-    res.status(200).json({ success: false, message: "Missing Minecraft username" });
+    res
+      .status(200)
+      .json({ success: false, message: "Missing Minecraft username" });
     return;
   }
   if (typeof tildesUsername !== "string") {
-    res.status(200).json({ success: false, message: "Missing Tildes username" });
+    res
+      .status(200)
+      .json({ success: false, message: "Missing Tildes username" });
     return;
   }
 
   if (!/^[a-zA-Z0-9_]{3,16}$/.test(mcUsername)) {
-    res.status(200).json({ success: false, message: "Invalid Minecraft username" });
+    res
+      .status(200)
+      .json({ success: false, message: "Invalid Minecraft username" });
     return;
   }
   if (!/^[a-zA-Z0-9_-]{2,255}$/.test(tildesUsername)) {
-    res.status(200).json({ success: false, message: "Invalid Tildes username" });
+    res
+      .status(200)
+      .json({ success: false, message: "Invalid Tildes username" });
     return;
   }
 

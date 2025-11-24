@@ -17,7 +17,8 @@ class RCONError extends Error {
 async function parseBio(tildesUsername: string) {
   const response = await axios.get(`https://tildes.net/user/${tildesUsername}`);
   const dom = new JSDOM(response.data);
-  const userBio = dom.window.document.querySelector("div.user-bio")?.textContent ?? "";
+  const userBio =
+    dom.window.document.querySelector("div.user-bio")?.textContent ?? "";
   return userBio;
 }
 
@@ -54,50 +55,66 @@ async function applyNickname(mcUsername: string, nickname: string) {
     const color = "#0099CC";
     await rcon.send(`nickother ${mcUsername} <${color}>${nickname}`);
 
-    await rcon.send(`tellraw ${mcUsername} ${tellRawString({
-      text: "Your account has been verified and you now have build access!",
-      color: "green",
-      bold: true,
-      italic: true,
-    })}`);
+    await rcon.send(
+      `tellraw ${mcUsername} ${tellRawString({
+        text: "Your account has been verified and you now have build access!",
+        color: "green",
+        bold: true,
+        italic: true,
+      })}`,
+    );
 
-    await rcon.send(`tellraw @a ${tellRawString([
-      {
-        text: `${mcUsername} is `,
-        color: "yellow",
-      },
-      {
-        text: "@",
-        color: "white",
-      },
-      {
-        text: nickname,
-        color: color,
-      },
-      {
-        text: " on Tildes",
-        color: "yellow",
-      },
-    ])}`);
+    await rcon.send(
+      `tellraw @a ${tellRawString([
+        {
+          text: `${mcUsername} is `,
+          color: "yellow",
+        },
+        {
+          text: "@",
+          color: "white",
+        },
+        {
+          text: nickname,
+          color: color,
+        },
+        {
+          text: " on Tildes",
+          color: "yellow",
+        },
+      ])}`,
+    );
   } finally {
     await rcon.end();
   }
 }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<VerifyResponse>) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<VerifyResponse>,
+) {
   if (req.method !== "POST") {
-    res.status(200).json({ success: false, message: "Only POST requests are allowed" });
+    res
+      .status(200)
+      .json({ success: false, message: "Only POST requests are allowed" });
     return;
   }
 
   if (req.headers["content-type"] !== "application/json") {
-    res.status(200).json({ success: false, message: "Content-Type must be application/json" });
+    res
+      .status(200)
+      .json({
+        success: false,
+        message: "Content-Type must be application/json",
+      });
     return;
   }
 
   const secret = process.env.USERNAME_SECRET ?? "";
   if (!secret) {
-    res.status(200).json({ success: false, message: "Server is not configured correctly" });
+    res
+      .status(200)
+      .json({ success: false, message: "Server is not configured correctly" });
     return;
   }
 
@@ -109,20 +126,28 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
   const { mcUsername, tildesUsername } = body as VerifyRequest;
   if (typeof mcUsername !== "string") {
-    res.status(200).json({ success: false, message: "Missing Minecraft username" });
+    res
+      .status(200)
+      .json({ success: false, message: "Missing Minecraft username" });
     return;
   }
   if (typeof tildesUsername !== "string") {
-    res.status(200).json({ success: false, message: "Missing Tildes username" });
+    res
+      .status(200)
+      .json({ success: false, message: "Missing Tildes username" });
     return;
   }
 
   if (!/^[a-zA-Z0-9_]{3,16}$/.test(mcUsername)) {
-    res.status(200).json({ success: false, message: "Invalid Minecraft username" });
+    res
+      .status(200)
+      .json({ success: false, message: "Invalid Minecraft username" });
     return;
   }
   if (!/^[a-zA-Z0-9_-]{2,255}$/.test(tildesUsername)) {
-    res.status(200).json({ success: false, message: "Invalid Tildes username" });
+    res
+      .status(200)
+      .json({ success: false, message: "Invalid Tildes username" });
     return;
   }
 
@@ -130,27 +155,45 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
   try {
     bio = await parseBio(tildesUsername);
-  } catch (error) {
-    res.status(200).json({ success: false, message: "Could not read user bio" });
+  } catch (_error) {
+    res
+      .status(200)
+      .json({ success: false, message: "Could not read user bio" });
     return;
   }
 
-  const hmac = bio.match(new RegExp(`MCValidation:([a-f0-9]{${hmacLength}})`))?.[1];
+  const hmac = bio.match(
+    new RegExp(`MCValidation:([a-f0-9]{${hmacLength}})`),
+  )?.[1];
   if (!hmac) {
-    res.status(200).json({ success: false, message: "Could not find \"MCValidation\"" });
+    res
+      .status(200)
+      .json({ success: false, message: 'Could not find "MCValidation"' });
     return;
   }
 
   // Check if the HMAC matches any of the three possible time slots
   const now = Date.now();
-  const hmacMatches = (
-    timingSafeEqual(Buffer.from(hmac), Buffer.from(computeHMAC(mcUsername, tildesUsername, now - slotDuration, secret))) ||
-    timingSafeEqual(Buffer.from(hmac), Buffer.from(computeHMAC(mcUsername, tildesUsername, now, secret))) ||
-    timingSafeEqual(Buffer.from(hmac), Buffer.from(computeHMAC(mcUsername, tildesUsername, now + slotDuration, secret)))
-  );
+  const hmacMatches =
+    timingSafeEqual(
+      Buffer.from(hmac),
+      Buffer.from(
+        computeHMAC(mcUsername, tildesUsername, now - slotDuration, secret),
+      ),
+    ) ||
+    timingSafeEqual(
+      Buffer.from(hmac),
+      Buffer.from(computeHMAC(mcUsername, tildesUsername, now, secret)),
+    ) ||
+    timingSafeEqual(
+      Buffer.from(hmac),
+      Buffer.from(
+        computeHMAC(mcUsername, tildesUsername, now + slotDuration, secret),
+      ),
+    );
 
   if (!hmacMatches) {
-    res.status(200).json({ success: false, message: "Invalid \"MCValidation\"" });
+    res.status(200).json({ success: false, message: 'Invalid "MCValidation"' });
     return;
   }
 
@@ -162,7 +205,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       return;
     }
 
-    res.status(200).json({ success: false, message: "Could not apply nickname" });
+    res
+      .status(200)
+      .json({ success: false, message: "Could not apply nickname" });
     return;
   }
 
