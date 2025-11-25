@@ -49,9 +49,10 @@ export function NotifyButton() {
     const newPlayerCount = serverData.status.players.online;
     if (newPlayerCount > lastPlayerCountRef.current) {
       sendNotification(serverData.status);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      reset();
     }
-    lastPlayerCountRef.current = newPlayerCount;
-  }, [isNotifying, serverData, sendNotification]);
+  }, [isNotifying, serverData, sendNotification, reset]);
 
   useEffect(() => {
     if (isNotifying && !isServerOnline) {
