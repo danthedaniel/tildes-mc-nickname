@@ -15,7 +15,13 @@ function ServerPoller() {
     const fetchServerStatus = () => {
       fetch("/api/server-query")
         .then((res) => res.json())
-        .then((data: ServerQueryResponse) => setServerData(data))
+        .then((data: ServerQueryResponse) => {
+          if (data.success) {
+            setServerData(data.status);
+          } else {
+            console.error("Failed to fetch server status:", data.message);
+          }
+        })
         .catch((e) => {
           console.error("Failed to fetch server status:", e);
         });

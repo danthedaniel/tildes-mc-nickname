@@ -18,4 +18,6 @@ export type VerifyResponse =
   | { success: true }
   | { success: false; message: string };
 
-export type ServerQueryResponse = PingResult;
+export type ServerQueryResponse =
+  | { success: true; status: PingResult }
+  | { success: false; message: string };

@@ -40,7 +40,7 @@ export function ServerStatusCard() {
   const { serverData } = useServerContext();
 
   const status = serverData.online ? serverData.status : null;
-  const version = status?.version?.name ?? "??.??.??";
+  const version = status?.version?.name ?? "?.??.??";
 
   return (
     <div className="relative p-6 pr-10 border border-gray-300 bg-white rounded-lg shadow-md max-w-md w-full">
@@ -50,7 +50,7 @@ export function ServerStatusCard() {
         </div>
 
         <div className="flex flex-col h-full justify-between min-w-0">
-          <p className="text-gray-800 font-bold truncate">Java v{version}</p>
+          <p className="text-gray-800 font-bold">Java v{version}</p>
           <p className="text-gray-700 truncate">
             {status ? flattenComponent(status.description) : "Server Offline"}
           </p>

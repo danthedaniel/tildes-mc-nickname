@@ -10,13 +10,17 @@ export default async function handler(
   res: NextApiResponse<ServerQueryResponse>,
 ) {
   if (req.method !== "GET") {
-    res.status(405).end();
+    res
+      .status(200)
+      .json({ success: false, message: "Only GET requests are allowed" });
     return;
   }
 
   const host = process.env.RCON_HOST;
   if (!host) {
-    res.status(500).end();
+    res
+      .status(200)
+      .json({ success: false, message: "Server is not configured correctly" });
     return;
   }
 
@@ -25,5 +29,5 @@ export default async function handler(
     "Cache-Control",
     `public, s-maxage=${CACHE_MAX_AGE}, stale-while-revalidate=${CACHE_STALE_WHILE_REVALIDATE}`,
   );
-  res.status(200).json(result);
+  res.status(200).json({ success: true, status: result });
 }

@@ -5,11 +5,11 @@ import {
   ReactNode,
   useEffect,
 } from "react";
-import type { ServerQueryResponse } from "@/api-types";
+import type { PingResult } from "@/util/mc-ping";
 
 interface ServerContextType {
-  serverData: ServerQueryResponse;
-  setServerData: (data: ServerQueryResponse) => void;
+  serverData: PingResult;
+  setServerData: (data: PingResult) => void;
 }
 
 const ServerContext = createContext<ServerContextType | null>(null);
@@ -20,19 +20,19 @@ interface ServerProviderProps {
 
 const CACHE_KEY = "serverQueryCache";
 
-function loadFromLocalStorage(): ServerQueryResponse | null {
+function loadFromLocalStorage(): PingResult | null {
   if (typeof window === "undefined") return null;
 
   try {
     const cached = localStorage.getItem(CACHE_KEY);
     if (!cached) return null;
-    return JSON.parse(cached) as ServerQueryResponse;
+    return JSON.parse(cached) as PingResult;
   } catch {
     return null;
   }
 }
 
-function saveToLocalStorage(data: ServerQueryResponse | null): void {
+function saveToLocalStorage(data: PingResult | null): void {
   if (typeof window === "undefined") return;
 
   try {
@@ -47,7 +47,7 @@ function saveToLocalStorage(data: ServerQueryResponse | null): void {
 }
 
 export function ServerProvider({ children }: ServerProviderProps) {
-  const [serverData, setServerData] = useState<ServerQueryResponse>({
+  const [serverData, setServerData] = useState<PingResult>({
     online: false,
   });
 
