@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import type { ServerQueryResponse } from "../../api-types";
 import { pingServer } from "../../util/mc-ping";
 
-const CACHE_MAX_AGE = 30; // seconds
+const CACHE_MAX_AGE = 60; // seconds
 const CACHE_STALE_WHILE_REVALIDATE = 60; // seconds
 
 export default async function handler(

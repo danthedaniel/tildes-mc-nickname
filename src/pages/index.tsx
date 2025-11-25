@@ -1,8 +1,8 @@
 import Head from "next/head";
 import Link from "next/link";
 
-import { Layout } from "../components/Layout";
 import { ServerStatusCard } from "../components/ServerStatusCard";
+import { NotifyButton } from "../components/NotifyButton";
 
 export default function Index() {
   return (
@@ -11,16 +11,16 @@ export default function Index() {
         <title>Tildes Minecraft</title>
       </Head>
 
-      <Layout>
-        <ServerStatusCard />
+      <ServerStatusCard />
 
-        <Link
-          href="/verify"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded focus:outline-hidden focus:shadow-outline max-w-md w-full text-center"
-        >
-          Get Build Access
-        </Link>
-      </Layout>
+      <NotifyButton />
+
+      <Link
+        href="/verify"
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded focus:outline-hidden focus:shadow-outline max-w-md w-full text-center"
+      >
+        Get Build Access
+      </Link>
     </>
   );
 }

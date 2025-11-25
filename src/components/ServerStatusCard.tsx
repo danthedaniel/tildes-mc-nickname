@@ -1,6 +1,5 @@
 import { FallbackServerIcon } from "../icons/FallbackServerIcon";
-import { StatusDot } from "./StatusDot";
-import { useServerStatus } from "../hooks/useServerStatus";
+import { useServerContext } from "./ServerContext";
 import type { TextComponent } from "../util/tellraw";
 
 function flattenComponent(component: TextComponent): string {
@@ -38,18 +37,13 @@ function ServerIcon({ favicon }: ServerIconProps) {
 }
 
 export function ServerStatusCard() {
-  const serverData = useServerStatus();
+  const { serverData } = useServerContext();
 
-  const online = serverData?.online ?? false;
-  const status = serverData?.online ? serverData.status : null;
+  const status = serverData.online ? serverData.status : null;
   const version = status?.version?.name ?? "??.??.??";
 
   return (
     <div className="relative p-6 pr-10 border border-gray-300 bg-white rounded-lg shadow-md max-w-md w-full">
-      <div className="absolute top-2 right-4">
-        <StatusDot online={online} />
-      </div>
-
       <div className="flex items-center justify-between gap-4">
         <div className="shrink-0">
           <ServerIcon favicon={status?.favicon} />

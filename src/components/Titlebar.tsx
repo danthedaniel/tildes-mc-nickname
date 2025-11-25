@@ -1,15 +1,15 @@
 import Link from "next/link";
 import { ArrowLeftIcon } from "../icons/ArrowLeftIcon";
 import { StatusDot } from "./StatusDot";
-import { useServerStatus } from "../hooks/useServerStatus";
+import { useServerContext } from "./ServerContext";
 
 interface TitlebarProps {
   showBack?: boolean;
 }
 
 export function Titlebar({ showBack }: TitlebarProps) {
-  const serverData = useServerStatus();
-  const online = serverData?.online ?? false;
+  const { serverData } = useServerContext();
+  const online = serverData?.online;
 
   return (
     <header className="bg-white border-b border-gray-300 shadow-sm">
