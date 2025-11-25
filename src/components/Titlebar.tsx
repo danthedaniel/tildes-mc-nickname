@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { ArrowLeftIcon } from "../icons/ArrowLeftIcon";
-import { StatusDot } from "./StatusDot";
-import { useServerContext } from "./ServerContext";
+import { ArrowLeftIcon } from "@/icons/ArrowLeftIcon";
+import { StatusDot } from "@/components/StatusDot";
+import { useServerContext } from "@/components/ServerContext";
 
 interface TitlebarProps {
   showBack?: boolean;

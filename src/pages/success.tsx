@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 
-import { CheckCircleIcon } from "../icons/CheckCircleIcon";
+import { CheckCircleIcon } from "@/icons/CheckCircleIcon";
 
 export default function Success() {
   const router = useRouter();

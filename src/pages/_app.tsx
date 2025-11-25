@@ -2,9 +2,9 @@ import { useEffect } from "react";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
-import { ServerProvider, useServerContext } from "../components/ServerContext";
-import { Layout } from "../components/Layout";
-import type { ServerQueryResponse } from "../api-types";
+import { ServerProvider, useServerContext } from "@/components/ServerContext";
+import { Layout } from "@/components/Layout";
+import type { ServerQueryResponse } from "@/api-types";
 
 const POLL_INTERVAL = 30000; // milliseconds
 

@@ -1,6 +1,6 @@
-import { FallbackServerIcon } from "../icons/FallbackServerIcon";
-import { useServerContext } from "./ServerContext";
-import type { TextComponent } from "../util/tellraw";
+import { FallbackServerIcon } from "@/icons/FallbackServerIcon";
+import { useServerContext } from "@/components/ServerContext";
+import type { TextComponent } from "@/util/mc-component";
 
 function flattenComponent(component: TextComponent): string {
   if (typeof component === "string") {
@@ -9,11 +9,11 @@ function flattenComponent(component: TextComponent): string {
     return component.toString();
   } else if (Array.isArray(component)) {
     return component.map(flattenComponent).join("");
-  } else if (typeof component === "object") {
-    return component.text;
+  } else {
+    const with_ = flattenComponent(component.with ?? []);
+    const extra = flattenComponent(component.extra ?? []);
+    return `${component.text ?? component.translate ?? ""}${with_}${extra}`;
   }
-
-  throw new Error("Unreachable!");
 }
 
 interface ServerIconProps {

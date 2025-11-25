@@ -5,7 +5,7 @@ import {
   ReactNode,
   useEffect,
 } from "react";
-import type { ServerQueryResponse } from "../api-types";
+import type { ServerQueryResponse } from "@/api-types";
 
 interface ServerContextType {
   serverData: ServerQueryResponse;

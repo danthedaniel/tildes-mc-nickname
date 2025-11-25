@@ -2,7 +2,7 @@ import { useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
-import type { HMACResponse, VerifyResponse } from "../api-types";
+import type { HMACResponse, VerifyResponse } from "@/api-types";
 
 export default function Verify() {
   const router = useRouter();

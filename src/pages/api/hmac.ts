@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import type { HMACRequest, HMACResponse } from "../../api-types";
-import { computeHMAC } from "../../util/hmac";
+import type { HMACRequest, HMACResponse } from "@/api-types";
+import { computeHMAC } from "@/util/hmac";
 
 export default function handler(
   req: NextApiRequest,

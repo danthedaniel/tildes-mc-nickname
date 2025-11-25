@@ -1,4 +1,4 @@
-import type { PingResult } from "./util/mc-ping";
+import type { PingResult } from "@/util/mc-ping";
 
 export interface HMACRequest {
   mcUsername?: string;

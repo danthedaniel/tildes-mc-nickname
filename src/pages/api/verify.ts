@@ -1,12 +1,11 @@
-import axios from "axios";
 import { JSDOM } from "jsdom";
 import { timingSafeEqual } from "crypto";
 import { Rcon } from "rcon-client";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import { computeHMAC, slotDuration, hmacLength } from "../../util/hmac";
-import { tellRawString } from "../../util/tellraw";
-import type { VerifyRequest, VerifyResponse } from "../../api-types";
+import { computeHMAC, slotDuration, hmacLength } from "@/util/hmac";
+import type { VerifyRequest, VerifyResponse } from "@/api-types";
+import { TextComponent } from "@/util/mc-component";
 
 class RCONError extends Error {
   constructor(message: string) {
@@ -14,9 +13,13 @@ class RCONError extends Error {
   }
 }
 
+export function tellRawString(text: TextComponent): string {
+  return JSON.stringify(text);
+}
+
 async function parseBio(tildesUsername: string) {
-  const response = await axios.get(`https://tildes.net/user/${tildesUsername}`);
-  const dom = new JSDOM(response.data);
+  const response = await fetch(`https://tildes.net/user/${tildesUsername}`);
+  const dom = new JSDOM(await response.text());
   const userBio =
     dom.window.document.querySelector("div.user-bio")?.textContent ?? "";
   return userBio;
@@ -101,12 +104,10 @@ export default async function handler(
   }
 
   if (req.headers["content-type"] !== "application/json") {
-    res
-      .status(200)
-      .json({
-        success: false,
-        message: "Content-Type must be application/json",
-      });
+    res.status(200).json({
+      success: false,
+      message: "Content-Type must be application/json",
+    });
     return;
   }
 

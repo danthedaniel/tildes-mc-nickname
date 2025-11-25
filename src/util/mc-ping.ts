@@ -1,5 +1,5 @@
 import * as net from "net";
-import type { TextComponent } from "./tellraw";
+import type { TextComponent } from "@/util/mc-component";
 
 export interface ServerStatusResponse {
   version: {

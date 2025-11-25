@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { useServerContext } from "./ServerContext";
+import { useServerContext } from "@/components/ServerContext";
 import { ServerStatusResponse } from "@/util/mc-ping";
 
 function notificationBody(status: ServerStatusResponse) {
