@@ -24,12 +24,14 @@ export type PingResult =
 
 function packVarInt(value: number): Buffer {
   const bytes: number[] = [];
+
   while (true) {
     const byte = value & 0x7f;
     value >>>= 7;
     bytes.push(value > 0 ? byte | 0x80 : byte);
     if (value === 0) break;
   }
+
   return Buffer.from(bytes);
 }
 
@@ -51,6 +53,7 @@ function packPort(port: number): Buffer {
 function readVarInt(buffer: Buffer, offset: number): [number, number] {
   let value = 0;
   let position = 0;
+
   while (true) {
     const byte = buffer[offset + position];
     value |= (byte & 0x7f) << (7 * position);
@@ -58,6 +61,7 @@ function readVarInt(buffer: Buffer, offset: number): [number, number] {
     if ((byte & 0x80) === 0) break;
     if (position >= 5) throw new Error("VarInt too big");
   }
+
   return [value, offset + position];
 }
 
@@ -73,6 +77,7 @@ export async function pingServer(
 
     const finish = (result: PingResult) => {
       if (resolved) return;
+
       resolved = true;
       socket.destroy();
       resolve(result);
@@ -92,10 +97,13 @@ export async function pingServer(
           Buffer.from([0x01]),
         ]),
       );
+
       // Status request: just packetId(0x00)
       const statusRequest = packData(Buffer.from([0x00]));
       socket.write(Buffer.concat([handshake, statusRequest]));
     });
+
+    let errorQuota = 10;
 
     socket.on("data", (chunk) => {
       dataChunks.push(chunk);
@@ -113,8 +121,14 @@ export async function pingServer(
 
         const status: ServerStatusResponse = JSON.parse(jsonStr);
         finish({ online: true, status });
-      } catch {
-        // Incomplete data or parse error, wait for more
+      } catch (e) {
+        // Potentially incomplete data, wait for more
+        console.error("Error parsing ping response:", e);
+        errorQuota--;
+
+        if (errorQuota <= 0) {
+          finish({ online: false });
+        }
       }
     });
   });
