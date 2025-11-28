@@ -1,38 +1,42 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import { ServerProvider, useServerContext } from "@/components/ServerContext";
 import { Layout } from "@/components/Layout";
 import type { ServerQueryResponse } from "@/api-types";
+import { PingResult } from "@/util/mc-ping";
 
 const POLL_INTERVAL = 30000; // milliseconds
+
+async function fetchServerStatus(): Promise<PingResult> {
+  try {
+    const response = await fetch("/api/server-query");
+    const data: ServerQueryResponse = await response.json();
+    if (!data.success) {
+      throw new Error(data.message);
+    }
+
+    return data.status;
+  } catch (e) {
+    console.error("Failed to fetch server status:", e);
+    return { online: false };
+  }
+}
 
 function ServerPoller() {
   const { setServerData } = useServerContext();
 
+  const update = useCallback(
+    async () => setServerData(await fetchServerStatus()),
+    [setServerData],
+  );
+
   useEffect(() => {
-    const fetchServerStatus = () => {
-      fetch("/api/server-query")
-        .then((res) => res.json())
-        .then((data: ServerQueryResponse) => {
-          if (data.success) {
-            setServerData(data.status);
-          } else {
-            console.error("Failed to fetch server status:", data.message);
-          }
-        })
-        .catch((e) => {
-          console.error("Failed to fetch server status:", e);
-        });
-    };
-
-    fetchServerStatus();
-
-    const interval = setInterval(fetchServerStatus, POLL_INTERVAL);
-
+    update();
+    const interval = setInterval(update, POLL_INTERVAL);
     return () => clearInterval(interval);
-  }, [setServerData]);
+  }, [update]);
 
   return null;
 }

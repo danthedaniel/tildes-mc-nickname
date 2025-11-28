@@ -26,8 +26,10 @@ function loadFromLocalStorage(): PingResult | null {
   try {
     const cached = localStorage.getItem(CACHE_KEY);
     if (!cached) return null;
+
     return JSON.parse(cached) as PingResult;
-  } catch {
+  } catch (e) {
+    console.error(`Error parsing ${CACHE_KEY} in localStorage`, e);
     return null;
   }
 }
@@ -54,10 +56,9 @@ export function ServerProvider({ children }: ServerProviderProps) {
   // Load from localStorage on mount (client-side only)
   useEffect(() => {
     const cached = loadFromLocalStorage();
-    if (cached) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setServerData(cached);
-    }
+    if (!cached) return;
+
+    setServerData(cached);
   }, []);
 
   // Save to localStorage whenever data changes

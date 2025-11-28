@@ -13,16 +13,10 @@ class RCONError extends Error {
   }
 }
 
-export function tellRawString(text: TextComponent): string {
-  return JSON.stringify(text);
-}
-
 async function parseBio(tildesUsername: string) {
   const response = await fetch(`https://tildes.net/user/${tildesUsername}`);
   const dom = new JSDOM(await response.text());
-  const userBio =
-    dom.window.document.querySelector("div.user-bio")?.textContent ?? "";
-  return userBio;
+  return dom.window.document.querySelector("div.user-bio")?.textContent ?? "";
 }
 
 async function applyNickname(mcUsername: string, nickname: string) {
@@ -59,16 +53,16 @@ async function applyNickname(mcUsername: string, nickname: string) {
     await rcon.send(`nickother ${mcUsername} <${color}>${nickname}`);
 
     await rcon.send(
-      `tellraw ${mcUsername} ${tellRawString({
+      `tellraw ${mcUsername} ${JSON.stringify({
         text: "Your account has been verified and you now have build access!",
         color: "green",
         bold: true,
         italic: true,
-      })}`,
+      } satisfies TextComponent)}`,
     );
 
     await rcon.send(
-      `tellraw @a ${tellRawString([
+      `tellraw @a ${JSON.stringify([
         {
           text: `${mcUsername} is `,
           color: "yellow",
@@ -85,7 +79,7 @@ async function applyNickname(mcUsername: string, nickname: string) {
           text: " on Tildes",
           color: "yellow",
         },
-      ])}`,
+      ] satisfies TextComponent)}`,
     );
   } finally {
     await rcon.end();
@@ -173,7 +167,8 @@ export default async function handler(
     return;
   }
 
-  // Check if the HMAC matches any of the three possible time slots
+  // Check if the HMAC matches the current time slot, or the adjacent slots to
+  // account for clock inconsistencies and user delays.
   const now = Date.now();
   const hmacMatches =
     timingSafeEqual(

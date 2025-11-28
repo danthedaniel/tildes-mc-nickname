@@ -27,8 +27,6 @@ export function NotifyButton() {
 
   const sendNotification = useCallback(
     (status: ServerStatusResponse) => {
-      if (Notification.permission !== "granted") return;
-
       new Notification("New player is online!", {
         body: notificationBody(status),
         icon: favicon || "/favicon-32x32.png",
@@ -44,19 +42,18 @@ export function NotifyButton() {
 
   // Watch for player count changes when notifying is enabled
   useEffect(() => {
-    if (!isNotifying || !serverData.online) return;
+    if (!isNotifying) return;
+    if (!isServerOnline) return;
 
     const newPlayerCount = serverData.status.players.online;
-    if (newPlayerCount > lastPlayerCountRef.current) {
-      sendNotification(serverData.status);
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      reset();
-    }
-  }, [isNotifying, serverData, sendNotification, reset]);
+    if (newPlayerCount <= lastPlayerCountRef.current) return;
+
+    sendNotification(serverData.status);
+    reset();
+  }, [isNotifying, isServerOnline, serverData, sendNotification, reset]);
 
   useEffect(() => {
     if (isNotifying && !isServerOnline) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       reset();
     }
   }, [isNotifying, isServerOnline, reset]);
