@@ -21,3 +21,11 @@ export type VerifyResponse =
 export type ServerQueryResponse =
   | { success: true; status: PingResult }
   | { success: false; message: string };
+
+export interface CheckOnlineRequest {
+  mcUsername?: string;
+}
+
+export type CheckOnlineResponse =
+  | { success: true; online: boolean }
+  | { success: false; message: string };

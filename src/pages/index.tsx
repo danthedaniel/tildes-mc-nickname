@@ -1,8 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
-
-import { ServerStatusCard } from "@/components/ServerStatusCard";
 import { NotifyButton } from "@/components/NotifyButton";
+import { ServerStatusCard } from "@/components/ServerStatusCard";
 
 export default function Index() {
   return (

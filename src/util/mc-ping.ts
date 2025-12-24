@@ -1,4 +1,4 @@
-import * as net from "net";
+import * as net from "node:net";
 import type { TextComponent } from "@/util/mc-component";
 
 export interface ServerStatusResponse {

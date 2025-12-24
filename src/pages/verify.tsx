@@ -1,8 +1,13 @@
-import { useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { useState } from "react";
 
-import type { HMACResponse, VerifyResponse } from "@/api-types";
+import type {
+  CheckOnlineResponse,
+  HMACResponse,
+  VerifyResponse,
+} from "@/api-types";
+import { cn } from "@/util/classname";
 
 export default function Verify() {
   const router = useRouter();
@@ -15,6 +20,41 @@ export default function Verify() {
 
   async function getHMAC() {
     if (!mcUsername) return;
+
+    const checkOnlineResponse = await fetch("/api/check-online", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        mcUsername,
+      }),
+    });
+
+    try {
+      throw new Error("Foo");
+    } catch (_e) {}
+
+    if (checkOnlineResponse.status !== 200) {
+      setStatus("Something went wrong, please try again later.");
+      setBio("");
+      return;
+    }
+
+    const checkOnlineData: CheckOnlineResponse =
+      await checkOnlineResponse.json();
+    if (!checkOnlineData.success) {
+      setStatus(checkOnlineData.message);
+      setBio("");
+      return;
+    }
+
+    if (!checkOnlineData.online) {
+      setStatus("You must be on the server to verify your account");
+      setBio("");
+      return;
+    }
+
     if (!tildesUsername) return;
 
     setBio("Loading...");
@@ -106,36 +146,36 @@ export default function Verify() {
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
             2. Enter your Minecraft username
+            <input
+              value={mcUsername}
+              onInput={(e) => {
+                setMcUsername(e.currentTarget.value.trim());
+                setSubmittable(false);
+              }}
+              onBlur={() => getHMAC()}
+              onKeyDown={(e) => e.key === "Enter" && getHMAC()}
+              autoComplete="off"
+              className="shadow-sm appearance-none border rounded-sm w-full py-2 px-3 text-gray-700 leading-tight focus:outline-hidden focus:shadow-outline mt-2 font-normal"
+              type="text"
+            />
           </label>
-          <input
-            value={mcUsername}
-            onInput={(e) => {
-              setMcUsername(e.currentTarget.value.trim());
-              setSubmittable(false);
-            }}
-            onBlur={() => getHMAC()}
-            onKeyDown={(e) => e.key === "Enter" && getHMAC()}
-            autoComplete="off"
-            className="shadow-sm appearance-none border rounded-sm w-full py-2 px-3 text-gray-700 leading-tight focus:outline-hidden focus:shadow-outline"
-            type="text"
-          />
         </div>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
             3. Enter your Tildes username
+            <input
+              value={tildesUsername}
+              onInput={(e) => {
+                setTildesUsername(e.currentTarget.value.trim());
+                setSubmittable(false);
+              }}
+              onBlur={() => getHMAC()}
+              onKeyDown={(e) => e.key === "Enter" && getHMAC()}
+              autoComplete="off"
+              className="shadow-sm appearance-none border rounded-sm w-full py-2 px-3 text-gray-700 leading-tight focus:outline-hidden focus:shadow-outline mt-2 font-normal"
+              type="text"
+            />
           </label>
-          <input
-            value={tildesUsername}
-            onInput={(e) => {
-              setTildesUsername(e.currentTarget.value.trim());
-              setSubmittable(false);
-            }}
-            onBlur={() => getHMAC()}
-            onKeyDown={(e) => e.key === "Enter" && getHMAC()}
-            autoComplete="off"
-            className="shadow-sm appearance-none border rounded-sm w-full py-2 px-3 text-gray-700 leading-tight focus:outline-hidden focus:shadow-outline"
-            type="text"
-          />
         </div>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -148,24 +188,32 @@ export default function Verify() {
             >
               Tildes account bio
             </a>
+            <input
+              readOnly
+              value={bio}
+              onFocus={(e) => {
+                e.currentTarget.select();
+                navigator.clipboard
+                  .writeText(e.currentTarget.value)
+                  .catch((e: unknown) =>
+                    console.error("Failed to write to clipboard:", e),
+                  );
+              }}
+              autoComplete="off"
+              className="shadow-sm appearance-none border rounded-sm w-full py-2 px-3 bg-gray-100 text-gray-700 leading-tight focus:outline-hidden focus:shadow-outline mt-2 font-normal"
+              type="text"
+            />
           </label>
-          <input
-            readOnly
-            value={bio}
-            onFocus={(e) => {
-              e.currentTarget.select();
-              document.execCommand("copy");
-            }}
-            autoComplete="off"
-            className="shadow-sm appearance-none border rounded-sm w-full py-2 px-3 bg-gray-100 text-gray-700 leading-tight focus:outline-hidden focus:shadow-outline"
-            type="text"
-          />
         </div>
         <div className="mb-4">
           <button
             disabled={!submittable}
-            className={`font-bold py-2 px-4 w-full rounded focus:outline-hidden focus:shadow-outline
-              ${!submittable || isLoading ? "bg-gray-300 text-gray-100 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-700 text-white cursor-pointer"}`}
+            className={cn(
+              "font-bold py-2 px-4 w-full rounded focus:outline-hidden focus:shadow-outline",
+              !submittable || isLoading
+                ? "bg-gray-300 text-gray-100 cursor-not-allowed"
+                : "bg-blue-500 hover:bg-blue-700 text-white cursor-pointer",
+            )}
             type="button"
             onClick={() => doVerify()}
           >

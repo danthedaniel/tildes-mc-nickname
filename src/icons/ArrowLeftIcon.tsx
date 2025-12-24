@@ -9,6 +9,8 @@ export function ArrowLeftIcon({ className }: ArrowLeftIconProps) {
       className={className}
       viewBox="0 0 20 20"
       fill="currentColor"
+      role="img"
+      aria-label="Arrow left"
     >
       <path
         fillRule="evenodd"

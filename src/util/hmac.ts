@@ -1,4 +1,4 @@
-import crypto from "crypto";
+import crypto from "node:crypto";
 
 export const slotDuration = 5 * 60 * 1000; // milliseconds
 export const hmacLength = 16;

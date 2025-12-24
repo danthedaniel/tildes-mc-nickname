@@ -9,6 +9,8 @@ export function CheckCircleIcon({ className }: CheckCircleIconProps) {
       className={className}
       viewBox="0 0 20 20"
       fill="currentColor"
+      role="img"
+      aria-label="Check circle"
     >
       <path
         fillRule="evenodd"

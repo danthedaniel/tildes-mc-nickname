@@ -1,17 +1,12 @@
+import { timingSafeEqual } from "node:crypto";
 import { JSDOM } from "jsdom";
-import { timingSafeEqual } from "crypto";
-import { Rcon } from "rcon-client";
 import type { NextApiRequest, NextApiResponse } from "next";
-
-import { computeHMAC, slotDuration, hmacLength } from "@/util/hmac";
+import { Rcon } from "rcon-client";
 import type { VerifyRequest, VerifyResponse } from "@/api-types";
-import { TextComponent } from "@/util/mc-component";
+import { computeHMAC, hmacLength, slotDuration } from "@/util/hmac";
+import type { TextComponent } from "@/util/mc-component";
 
-class RCONError extends Error {
-  constructor(message: string) {
-    super(message);
-  }
-}
+class RCONError extends Error {}
 
 async function parseBio(tildesUsername: string) {
   const response = await fetch(`https://tildes.net/user/${tildesUsername}`);
@@ -34,7 +29,7 @@ async function applyNickname(mcUsername: string, nickname: string) {
 
   const rcon = await Rcon.connect({
     host,
-    port: parseInt(process.env.RCON_PORT || "25575"),
+    port: parseInt(process.env.RCON_PORT || "25575", 10),
     password,
   });
 

@@ -2,10 +2,10 @@ import { useCallback, useEffect } from "react";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
-import { ServerProvider, useServerContext } from "@/components/ServerContext";
-import { Layout } from "@/components/Layout";
 import type { ServerQueryResponse } from "@/api-types";
-import { PingResult } from "@/util/mc-ping";
+import { Layout } from "@/components/Layout";
+import { ServerProvider, useServerContext } from "@/components/ServerContext";
+import type { PingResult } from "@/util/mc-ping";
 
 const POLL_INTERVAL = 30000; // milliseconds
 

@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { ArrowLeftIcon } from "@/icons/ArrowLeftIcon";
-import { StatusDot } from "@/components/StatusDot";
 import { useServerContext } from "@/components/ServerContext";
+import { ArrowLeftIcon } from "@/icons/ArrowLeftIcon";
+import { cn } from "@/util/classname";
 
 interface TitlebarProps {
   showBack?: boolean;
@@ -34,7 +34,12 @@ export function Titlebar({ showBack }: TitlebarProps) {
           </Link>
         </div>
         <div className="flex items-center gap-2 text-sm text-gray-600">
-          <StatusDot online={online} />
+          <span
+            className={cn(
+              "inline-block w-2.5 h-2.5 rounded-full",
+              online ? "bg-green-500" : "bg-red-500",
+            )}
+          />
           <span>{online ? "Online" : "Offline"}</span>
         </div>
       </div>

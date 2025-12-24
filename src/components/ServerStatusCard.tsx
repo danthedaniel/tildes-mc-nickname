@@ -1,5 +1,5 @@
-import { FallbackServerIcon } from "@/icons/FallbackServerIcon";
 import { useServerContext } from "@/components/ServerContext";
+import { FallbackServerIcon } from "@/icons/FallbackServerIcon";
 import type { TextComponent } from "@/util/mc-component";
 
 function flattenComponent(component: TextComponent): string {
@@ -9,10 +9,10 @@ function flattenComponent(component: TextComponent): string {
     return component.toString();
   } else if (Array.isArray(component)) {
     return component.map(flattenComponent).join("");
+  } else if (component.translate) {
+    return `${component.translate}${flattenComponent(component.with ?? [])}`;
   } else {
-    const with_ = flattenComponent(component.with ?? []);
-    const extra = flattenComponent(component.extra ?? []);
-    return `${component.text ?? component.translate ?? ""}${with_}${extra}`;
+    return `${component.text ?? ""}${flattenComponent(component.extra ?? [])}`;
   }
 }
 
@@ -26,7 +26,7 @@ function ServerIcon({ favicon }: ServerIconProps) {
   }
 
   return (
-    // eslint-disable-next-line @next/next/no-img-element
+    // biome-ignore lint/performance/noImgElement: Base64 favicon from server status
     <img
       src={favicon}
       alt="Server icon"
@@ -55,8 +55,7 @@ export function ServerStatusCard() {
             {status ? flattenComponent(status.description) : "Server Offline"}
           </p>
           <p className="text-gray-500">
-            {status ? status.players.online : "?"} /{" "}
-            {status ? status.players.max : "?"} Players
+            {`${status?.players?.online ?? "?"} / ${status?.players?.max ?? "?"}`}
           </p>
         </div>
       </div>

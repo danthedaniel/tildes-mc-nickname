@@ -1,6 +1,7 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useServerContext } from "@/components/ServerContext";
-import { ServerStatusResponse } from "@/util/mc-ping";
+import { cn } from "@/util/classname";
+import type { ServerStatusResponse } from "@/util/mc-ping";
 
 function notificationBody(status: ServerStatusResponse) {
   if (status.players.online === 1 && status.players.sample.length === 1) {
@@ -93,15 +94,19 @@ export function NotifyButton() {
 
   return (
     <button
+      type="button"
       onClick={handleClick}
       disabled={isDisabled}
-      className={`font-bold py-3 px-6 rounded focus:outline-hidden focus:shadow-outline max-w-md w-full text-center ${
-        isDisabled
-          ? "bg-gray-400 text-gray-200 cursor-not-allowed"
-          : isNotifying
-            ? "bg-red-500 hover:bg-red-700 text-white cursor-pointer"
-            : "bg-green-500 hover:bg-green-700 text-white cursor-pointer"
-      }`}
+      className={
+        /* prettier-ignore */ cn(
+          "font-bold py-3 px-6 rounded focus:outline-hidden focus:shadow-outline max-w-md w-full text-center",
+          isDisabled
+            ? "bg-gray-400 text-gray-200 cursor-not-allowed"
+            : isNotifying
+              ? "bg-red-500 hover:bg-red-700 text-white cursor-pointer"
+              : "bg-green-500 hover:bg-green-700 text-white cursor-pointer",
+        )
+      }
     >
       {isNotifying ? "Stop notifications" : "Notify me when someone joins"}
     </button>
