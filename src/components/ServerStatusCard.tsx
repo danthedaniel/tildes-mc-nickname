@@ -50,7 +50,7 @@ export function ServerStatusCard() {
         </div>
 
         <div className="flex flex-col h-full justify-between min-w-0">
-          <p className="text-gray-800 font-bold">Java v{version}</p>
+          <p className="text-gray-800 font-bold">Java {version}</p>
           <p className="text-gray-700 truncate">
             {status ? flattenComponent(status.description) : "Server Offline"}
           </p>
