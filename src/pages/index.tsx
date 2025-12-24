@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
+import { Countdown } from "@/components/Countdown";
 import { NotifyButton } from "@/components/NotifyButton";
 import { ServerStatusCard } from "@/components/ServerStatusCard";
 
@@ -11,6 +12,8 @@ export default function Index() {
       </Head>
 
       <ServerStatusCard />
+
+      <Countdown />
 
       <NotifyButton />
 
