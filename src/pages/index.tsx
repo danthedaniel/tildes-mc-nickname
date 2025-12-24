@@ -5,6 +5,8 @@ import { NotifyButton } from "@/components/NotifyButton";
 import { ServerStatusCard } from "@/components/ServerStatusCard";
 
 export default function Index() {
+  const countdown = <Countdown />;
+
   return (
     <>
       <Head>
@@ -13,16 +15,20 @@ export default function Index() {
 
       <ServerStatusCard />
 
-      <Countdown />
+      {countdown === null ? (
+        <>
+          <NotifyButton />
 
-      <NotifyButton />
-
-      <Link
-        href="/verify"
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded focus:outline-hidden focus:shadow-outline max-w-md w-full text-center"
-      >
-        Get Build Access
-      </Link>
+          <Link
+            href="/verify"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded focus:outline-hidden focus:shadow-outline max-w-md w-full text-center"
+          >
+            Get Build Access
+          </Link>
+        </>
+      ) : (
+        countdown
+      )}
     </>
   );
 }
