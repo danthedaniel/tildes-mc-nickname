@@ -44,31 +44,31 @@ export function Countdown() {
 
   return (
     <div className="p-6 max-w-md w-full">
-      <table className="mx-auto mb-4">
+      <table className="mx-auto mb-4 w-full">
         <tbody>
           <tr>
-            <td className="text-3xl font-bold text-gray-800 text-right pr-2">
+            <td className="text-3xl font-bold text-gray-800 text-right pr-2 w-1/2">
               {timeRemaining.days}
             </td>
-            <td className="text-3xl text-gray-600 pl-2">Days</td>
+            <td className="text-3xl text-gray-600 pl-2 w-1/2">Days</td>
           </tr>
           <tr>
-            <td className="text-3xl font-bold text-gray-800 text-right pr-2">
+            <td className="text-3xl font-bold text-gray-800 text-right pr-2 w-1/2">
               {timeRemaining.hours}
             </td>
-            <td className="text-3xl text-gray-600 pl-2">Hours</td>
+            <td className="text-3xl text-gray-600 pl-2 w-1/2">Hours</td>
           </tr>
           <tr>
-            <td className="text-3xl font-bold text-gray-800 text-right pr-2">
+            <td className="text-3xl font-bold text-gray-800 text-right pr-2 w-1/2">
               {timeRemaining.minutes}
             </td>
-            <td className="text-3xl text-gray-600 pl-2">Minutes</td>
+            <td className="text-3xl text-gray-600 pl-2 w-1/2">Minutes</td>
           </tr>
           <tr>
-            <td className="text-3xl font-bold text-gray-800 text-right pr-2">
+            <td className="text-3xl font-bold text-gray-800 text-right pr-2 w-1/2">
               {timeRemaining.seconds}
             </td>
-            <td className="text-3xl text-gray-600 pl-2">Seconds</td>
+            <td className="text-3xl text-gray-600 pl-2 w-1/2">Seconds</td>
           </tr>
         </tbody>
       </table>
