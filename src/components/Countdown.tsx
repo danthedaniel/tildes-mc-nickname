@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useLayoutEffect, useState } from "react";
 
 // 11am PST on January 3rd, 2026
 const targetDate = new Date("2026-01-03T11:00:00-08:00");
@@ -32,7 +32,7 @@ export function Countdown() {
     setTimeRemaining({ days, hours, minutes, seconds });
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     updateCountdown();
     const interval = setInterval(updateCountdown, 1000);
     return () => clearInterval(interval);
@@ -43,35 +43,26 @@ export function Countdown() {
   }
 
   return (
-    <div className="p-6 max-w-md w-full">
-      <table className="mx-auto mb-4 w-full">
-        <tbody>
-          <tr>
-            <td className="text-3xl font-bold text-gray-800 text-right pr-2 w-1/2">
-              {timeRemaining.days}
-            </td>
-            <td className="text-3xl text-gray-600 pl-2 w-1/2">Days</td>
-          </tr>
-          <tr>
-            <td className="text-3xl font-bold text-gray-800 text-right pr-2 w-1/2">
-              {timeRemaining.hours}
-            </td>
-            <td className="text-3xl text-gray-600 pl-2 w-1/2">Hours</td>
-          </tr>
-          <tr>
-            <td className="text-3xl font-bold text-gray-800 text-right pr-2 w-1/2">
-              {timeRemaining.minutes}
-            </td>
-            <td className="text-3xl text-gray-600 pl-2 w-1/2">Minutes</td>
-          </tr>
-          <tr>
-            <td className="text-3xl font-bold text-gray-800 text-right pr-2 w-1/2">
-              {timeRemaining.seconds}
-            </td>
-            <td className="text-3xl text-gray-600 pl-2 w-1/2">Seconds</td>
-          </tr>
-        </tbody>
-      </table>
+    <div className="flex flex-col self-center gap-2 p-6">
+      <div>
+        <span className="text-3xl font-bold font-mono pr-1.5">
+          {timeRemaining.days}
+        </span>
+        <span className="text-3xl pr-3">Days</span>
+        <span className="text-3xl font-bold font-mono">
+          {timeRemaining.hours.toString().padStart(2, "0")}
+        </span>
+        <span className="text-3xl pr-3">h</span>
+        <span className="text-3xl font-bold font-mono">
+          {timeRemaining.minutes.toString().padStart(2, "0")}
+        </span>
+        <span className="text-3xl pr-3">m</span>
+        <span className="text-3xl font-bold font-mono">
+          {timeRemaining.seconds.toString().padStart(2, "0")}
+        </span>
+        <span className="text-3xl">s</span>
+      </div>
+      <span className="self-center text-3xl">Until Launch</span>
     </div>
   );
 }
