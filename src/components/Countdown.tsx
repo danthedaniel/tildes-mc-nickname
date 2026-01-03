@@ -49,7 +49,7 @@ export function Countdown() {
           {timeRemaining.days}
         </span>
         <span className="text-3xl pr-3">
-          {timeRemaining.days > 1 ? "Days" : "Day"}
+          {timeRemaining.days !== 1 ? "Day" : "Days"}
         </span>
         <span className="text-3xl font-bold font-mono">
           {timeRemaining.hours.toString().padStart(2, "0")}
