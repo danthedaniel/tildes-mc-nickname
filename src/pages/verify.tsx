@@ -19,6 +19,7 @@ export default function Verify() {
   const [status, setStatus] = useState("");
 
   async function getHMAC() {
+    setBio("");
     if (!mcUsername) return;
 
     const checkOnlineResponse = await fetch("/api/check-online", {
@@ -30,14 +31,8 @@ export default function Verify() {
         mcUsername,
       }),
     });
-
-    try {
-      throw new Error("Foo");
-    } catch (_e) {}
-
     if (checkOnlineResponse.status !== 200) {
       setStatus("Something went wrong, please try again later.");
-      setBio("");
       return;
     }
 
@@ -45,15 +40,15 @@ export default function Verify() {
       await checkOnlineResponse.json();
     if (!checkOnlineData.success) {
       setStatus(checkOnlineData.message);
-      setBio("");
       return;
     }
 
     if (!checkOnlineData.online) {
       setStatus("You must be on the server to verify your account");
-      setBio("");
       return;
     }
+
+    setStatus("");
 
     if (!tildesUsername) return;
 
@@ -72,14 +67,12 @@ export default function Verify() {
 
     if (response.status !== 200) {
       setStatus("Something went wrong, please try again later.");
-      setBio("");
       return;
     }
 
     const data = (await response.json()) as HMACResponse;
     if (!data.success) {
       setStatus(data.message);
-      setBio("");
       return;
     }
 
