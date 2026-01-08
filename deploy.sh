@@ -8,7 +8,8 @@ cd "$(dirname -- "$0")"
 
 # Pull latest code
 echo "Pulling latest code from git..."
-git pull origin main
+git fetch origin
+git reset --hard origin/main
 
 # Install dependencies
 echo "Installing dependencies..."
